@@ -1,12 +1,16 @@
 import express from 'express';
+import path from 'path';
 
 const app = express();
-const getYear = (date: Date): string => {
-  return `${date.getFullYear()}`;
-};
+
+app.set('views', path.join(__dirname, './views'));
+app.set('view engine', 'pug');
+
+app.use(express.static('assets'));
+app.use('/assets', express.static(path.join(__dirname, './assets')));
+
 app.get('/', (req, res) => {
-  const year = getYear(new Date());
-  res.send(`Hello World ! ${year}`);
+  res.render('index.pug');
 });
 app.listen(3000, () => {
   // tslint:disable-next-line: no-console
